@@ -1,77 +1,112 @@
-import { defineConfig, devices } from '@playwright/test';
+import {devices } from '@playwright/test';
+import type { PlaywrightTestConfig } from '@playwright/test';
+var date = new Date();
+var ReportDate = date.getFullYear() + ("0" + (date.getMonth() + 1)).slice(-2) + ("0" + date.getDate()).slice(-2) + ("0" + date.getHours()).slice(-2) + ("0" + date.getMinutes()).slice(-2) + ("0" + date.getSeconds()).slice(-2);
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// require('dotenv').config();
-
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
-export default defineConfig({
+const config: PlaywrightTestConfig = {
   testDir: './tests',
-  /* Run tests in files in parallel */
-  fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
+  testMatch: [
+    "login.test.ts",
+  
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+
+  ],
+  
+  fullyParallel: true,
+  retries: process.env.CI ? 1 : 0,
+  workers: process.env.CI ? 1 : 1,
+
+  // reporter: process.env.CI ? [["junit", {
+  //   outputFile: "results.xml"
+  // }]] : [["json", {
+  //   outputFile: "report.json"
+  // }], ["html", {
+  //   open: "never"
+  // }]],
+
+  // reporter: [ ["experimental-allure-playwright"]],
+
+
+
+  // reporter: [["html", {
+  //   open: "never"
+  // }], ["allure-playwright"], ['./My-Reporter.js']],
+
+  // globalTeardown: require.resolve("./mailer.js"),
+
+
+
+  use: {
+    actionTimeout: 10 * 6000,
+    navigationTimeout: 30 * 7000,
+    baseURL:"https://docmedilink.vercel.app",
+    // baseURL : "https://demo.alignwell.com/login",
+    launchOptions: {
+      args: [
+        // '--use-fake-device-for-media-stream',
+        // '--use-fake-ui-for-media-stream',
+        // '--no-sandbox',
+        // '--disable-features=UseOzonePlatform',
+        // `--use-file-for-fake-video-capture=${__dirname}/mobile.y4m`
+      ],
+      slowMo: 100
+
+    },
+    permissions: ["microphone", "camera", "clipboard-read", "clipboard-write"],
+    headless: process.env.CI ? true : false,
+    browserName: 'chromium',
+    channel: 'chrome',
+    screenshot :'only-on-failure',
+    viewport: { width: 1520, height: 780 },
+    ignoreHTTPSErrors: true,
+
+    //  permissions: ["camera"],
+
+
+    // actionTimeout: 2 * 60 * 1000,
+    // trace: process.env.CI ? "off" : "off",
+    // video: process.env.CI ? "off" : "off",
+    // screenshot: process.env.CI ? "off" : "on",
+  },
+  // retries : 1,
+  // workers : 1,
+  timeout: 1 * 30 * 10000,
+  //reporter :"experimental-allure-playwright",
+  expect: {
+    timeout: 6000
+
   },
 
-  /* Configure projects for major browsers */
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
 
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
+//   projects: [
+//     // {
+//     //   name: 'chromium',
+//     //   use: {
+//     //     ...devices['Desktop Chrome'],
+//     //   },
+//     // },
 
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
-  ],
+//     // {
+//     //   name: 'firefox',
+//     //   use: {
+//     //     ...devices['Desktop Firefox'],channel:'firefox',
+//     //   },
+//     // },
+//   // {
+//   //   name: 'MSEdge',
+//   //   use: { ...devices['Desktop Edge'], channel: 'msedge' ,
+//   // } // or "msedge-beta" or 'msedge-dev'
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
-});
+//   // },
+   
+//   ]
+//   // reporter: [ ["html"], { outputFolder: ('./playwright-report/'+ ReportDate)}]
+//   // retries : 1,
+//   // workers : 2
+
+
+};
+
+export default config;

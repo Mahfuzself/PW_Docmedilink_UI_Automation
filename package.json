@@ -2,7 +2,9 @@
   "name": "pw_docmedilink_ui_automation",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npm run"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
