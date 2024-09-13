@@ -7,6 +7,7 @@ const config: PlaywrightTestConfig = {
   testDir: './tests',
   testMatch: [
     "login.test.ts",
+    "LoginPage.ts",
   
 
 
@@ -57,7 +58,7 @@ const config: PlaywrightTestConfig = {
     browserName: 'chromium',
     channel: 'chrome',
     screenshot :'only-on-failure',
-    viewport: { width: 1520, height: 780 },
+    viewport: { width: 1440, height: 1021 },
     ignoreHTTPSErrors: true,
 
     //  permissions: ["camera"],
