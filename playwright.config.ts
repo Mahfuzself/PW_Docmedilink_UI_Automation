@@ -50,7 +50,7 @@ const config: PlaywrightTestConfig = {
         // '--disable-features=UseOzonePlatform',
         // `--use-file-for-fake-video-capture=${__dirname}/mobile.y4m`
       ],
-      slowMo: 100
+      slowMo: 130
 
     },
     permissions: ["microphone", "camera", "clipboard-read", "clipboard-write"],
