@@ -1,6 +1,5 @@
 import test from '../fixtures/basepages'
 import { Page, Locator } from '@playwright/test';
-import LoginPage from 'pages/loginPage'
 import * as data from "testData/login.cred.json"
 test("Verify login page",async ({page,loginPage})=>{
     await page.goto("/login")
